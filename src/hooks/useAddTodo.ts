@@ -10,7 +10,7 @@ export function useAddTodo() {
     // 실제 "할 일 추가" 
     return useMutation({
         mutationFn: async (newTitle : string) => {
-            const res = await fetch('http:/localhost:3001/todos', {
+            const res = await fetch('http://localhost:3001/todos', {
                 method : 'POST',
                 headers: { 'Content-Type' : 'application/json' },
                 body : JSON.stringify({

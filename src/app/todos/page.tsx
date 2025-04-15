@@ -13,21 +13,40 @@ export default function TodoListPage(){
     const { mutate: deleteTodo } = useDeleteTodo();
     const { mutate: toggleTodo } = useToggleTodo();
     const [ input, setInput ] = useState('') //입력 필드의 상태 관리 (C#의 private string title 변수 느낌)
-
+    const [ filter, setFilter ] = useState<'all' | 'done' | 'todo'>('all')
 
     const handleAdd = () => {
         if (!input.trim()) return
         addTodo(input) // 실제 추가 요청 수행
         setInput('') // 입력 필드 초기화
     }
+
+    const filterTodos = todos?.filter((todo) => {
+        if (filter === 'all') return true
+        if (filter === 'done' ) return todo.completed
+        if (filter === 'todo' ) return !todo.completed
+    })
+
     if(isLoading) return <p>불러오는 중...</p>
     if(isError) return<p>에러 발생!</p>
 
     return (
         <div className="p-4">
             <h1 className="text-2xl font-bold mb-4">할 일 목록 (Todos)</h1>
-              {/* 할 일 입력창과 추가 버튼 */}
             <div className="flex gap-2 mb-4">
+                {(['all', 'done', 'todo'] as const).map((key) => (
+                    <button
+                        key={key}
+                        onClick={()=>setFilter(key)}
+                        className={`px-3 py-1 border rounded
+                            ${filter === key ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-800'}
+                            `}
+                    >
+                        {key === 'all' && '전체'}
+                        {key === 'done' && '완료'}
+                        {key === 'todo' && '미완료'}
+                    </button>
+                ))}
                 <input
                     value={input}
                     onChange={(e) => setInput(e.target.value)} // 입력값이 바뀔 때 상태 업데이트
@@ -49,7 +68,7 @@ export default function TodoListPage(){
 
             {/* todos 목록 출력 */}
             <ul className="space-y-2">
-                {todos?.map((todo) => (
+                {filterTodos?.map((todo) => (
                 <li key={todo.id} className="min-h-14 p-2 border rounded flex justify-between items-center">
                     <div className="flex items-center gap-2">
                         <input 
@@ -66,7 +85,7 @@ export default function TodoListPage(){
                             onClick={()=>deleteTodo(todo.id)}
                             className="text-red-500 hover:text-red-700 text-sm"
                             >
-                                ❌
+                                ❌  
                     </button>
                 </li>
                 ))}

@@ -4,13 +4,16 @@ import { useState } from 'react'
 import { useTodos } from '@/hooks/useTodos' // 할 일 조회 (useQuery)
 import { useAddTodo } from '@/hooks/useAddTodo' // 할 일 추가 (useMutation)
 import { useDeleteTodo } from '@/hooks/useDeleteTodo'
+import { useToggleTodo } from '@/hooks/useToggleTodo'
 
 //Unity에서 MonoBehaviour의 Start() + Update() 느낌. 페이지 자체를 구성하는 컴포넌트
 export default function TodoListPage(){
     const {data : todos, isLoading, isError } = useTodos()
     const { mutate: addTodo } = useAddTodo() // useAddTodo훅으로 부터 mutation 실행 함수 받아옴
     const { mutate: deleteTodo } = useDeleteTodo();
+    const { mutate: toggleTodo } = useToggleTodo();
     const [ input, setInput ] = useState('') //입력 필드의 상태 관리 (C#의 private string title 변수 느낌)
+
 
     const handleAdd = () => {
         if (!input.trim()) return
@@ -48,13 +51,20 @@ export default function TodoListPage(){
             <ul className="space-y-2">
                 {todos?.map((todo) => (
                 <li key={todo.id} className="min-h-14 p-2 border rounded flex justify-between items-center">
-                    <span>
-                        <input type="checkbox" checked={todo.completed} readOnly className="mr-2" />
-                        {todo.title}
-                    </span>
+                    <div className="flex items-center gap-2">
+                        <input 
+                            type="checkbox" 
+                            checked={todo.completed}
+                            className="mr-2" 
+                            onChange={() => toggleTodo(todo)}
+                        />
+                        <span className = {todo.completed ? 'line-through text-gray-400' : ''}>
+                            {todo.title}
+                        </span>
+                    </div>
                     <button
                             onClick={()=>deleteTodo(todo.id)}
-                            className="text0red-500 hover:text-red-700 text-sm"
+                            className="text-red-500 hover:text-red-700 text-sm"
                             >
                                 ❌
                     </button>

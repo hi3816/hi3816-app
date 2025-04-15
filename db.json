@@ -13,7 +13,7 @@
     {
       "id": "3",
       "title": "할 일 추가/수정/삭제 구현",
-      "completed": false
+      "completed": true
     },
     {
       "id": "4",
@@ -23,7 +23,7 @@
     {
       "id": "84f3",
       "title": "ㅁㄴㅇㄹ",
-      "completed": false
+      "completed": true
     }
   ]
 }

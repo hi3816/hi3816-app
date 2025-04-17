@@ -18,26 +18,28 @@ export const metadata: Metadata = {
   description: "할 일을 관리하고 정리할 수 있는 간단한 Todo 리스트입니다.",
 };
 
-export default function RootLayout({      
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <html lang="ko">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#FFDDAB]`}>
         <QueryProvider>
-          <header className ="bg-blue-500 text-white p-4 text-xl font-bold">
-            hi3816의 TODO
+          
+          {/* 헤더 */}
+          <header className="bg-[#5F8B4C] text-white py-5 px-6 text-2xl font-bold shadow-md text-center tracking-wide">
+            🌿 hi3816의 Todo List 🌿
           </header>
-        
-          <main className = "p-4">
+
+          {/* 메인 */}
+          <main className="">
             {children}
           </main>
 
-          <footer className = "bg-tray-100 text-center p4 text-sm text-gray-600">
+          {/* 푸터 */}
+          <footer className="text-center py-4 text-sm text-[#945034]">
             © 2025 hi3816. All rights reserved.
           </footer>
         </QueryProvider>
